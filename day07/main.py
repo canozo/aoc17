@@ -1,33 +1,16 @@
 def solve(puzzle):
-    remove_me = []
     global_parents = []
     global_children = []
 
     for line in puzzle:
         parent, children = line
-        if not children:
-            # do nothing
-            global_children.append(parent)
-            continue
+        if children:
+            global_parents.append(parent)
+            global_children += children
 
-        global_children += children
-
-        if parent in global_children:
-            # not add it to parents
-            continue
-
-        # ok, it's a parent (for now)
-        global_parents.append(parent)
-
-        # check if any global parents are children
-        for node in global_parents:
-            if node in global_children and node not in remove_me:
-                remove_me.append(node)
-
-    for node in remove_me:
-        global_parents.remove(node)
-
-    return global_parents
+    for parent in global_parents:
+        if parent not in global_children:
+            return parent
 
 
 def process_line(line):
